@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono,Outfit } from "next/font/google";
+import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@/services/clerk/componentes/ClerkProvider";
+import { ThemeProvider } from "next-themes";
 
 const outfitSans = Outfit({
   variable: "--font-outfit-sans",
@@ -24,13 +25,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${outfitSans.variable} antialiased font-sans`}
-        suppressHydrationWarning
-      >
-        <ClerkProvider>{children}</ClerkProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${outfitSans.variable} antialiased font-sans`}
+          suppressHydrationWarning>
+          <ThemeProvider attribute="class" defaultTheme="system"
+          enableColorScheme
+          disableTransitionOnChange
+          >
+            {children}
+            </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
